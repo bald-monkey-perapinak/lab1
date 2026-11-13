@@ -2,7 +2,9 @@
 # Обвязка запуска; решения пунктов находятся в scripts/01..04.
 set -euo pipefail
 export LC_ALL=C.UTF-8
-source_dir=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)
+source_path=${BASH_SOURCE[0]}
+if [[ $source_path == */* ]]; then source_dir=${source_path%/*}; else source_dir=.; fi
+source_dir=$(cd -- "$source_dir" && pwd)
 if [[ -e "$HOME/lab0" || -L "$HOME/lab0" ]]; then
   echo 'Остановка: ~/lab0 уже существует. Сохрани предыдущую работу; скрипт её не перезаписывает.' >&2
   exit 1
@@ -25,6 +27,10 @@ for stage in 01_create 02_copy 03_search 04_remove; do
   echo "Выполняется $stage"
   bash -euxo pipefail "$source_dir/scripts/$stage.sh" > "$source_dir/evidence/$stage.log" 2>&1
   cat "$source_dir/evidence/$stage.log"
+  if [[ $stage != 03_search ]]; then
+    bash "$source_dir/verify.sh" "$stage" > "$source_dir/evidence/$stage-verification.log" 2>&1
+    cat "$source_dir/evidence/$stage-verification.log"
+  fi
   case "$stage" in
     01_create) message='Create variant 11 tree and set access permissions' ;;
     02_copy) message='Copy files create links and move advertising plan' ;;

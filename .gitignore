@@ -1,0 +1,7 @@
+/vms/
+/vm-runtime/
+*.iso
+*.vdi
+*.vmdk
+*.qcow2
+__pycache__/
