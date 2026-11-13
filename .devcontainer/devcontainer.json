@@ -1,0 +1,9 @@
+{
+  "name": "AVS Lab 1 Debian",
+  "image": "mcr.microsoft.com/devcontainers/base:bookworm",
+  "remoteUser": "vscode",
+  "containerEnv": {"LANG": "C.UTF-8", "LC_ALL": "C.UTF-8"},
+  "postCreateCommand": "sudo apt-get update && sudo apt-get install -y less",
+  "workspaceFolder": "/workspaces/avs_lab1",
+  "workspaceMount": "source=${localWorkspaceFolder},target=/workspaces/avs_lab1,type=bind"
+}
